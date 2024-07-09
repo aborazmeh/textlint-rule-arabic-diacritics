@@ -42,6 +42,8 @@ Shadda can't be combined with Sukun
 
 Via `.textlintrc.json`(Recommended)
 
+These are default options, you can change them in your .textlintrc file
+
 ```json
 {
     "rules": {
