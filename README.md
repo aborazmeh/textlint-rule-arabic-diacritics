@@ -18,7 +18,8 @@ textlint --rule no-kasheeda --fix README.md
 
 ## Examples
 
-### Loose Diacritics
+### Loose Diacritics [![textlint rule](https://img.shields.io/badge/textlint-fixable-green.svg)](https://textlint.github.io/)
+
 
     أهلا ً وسهلا ً بكم
 
@@ -26,7 +27,7 @@ Only diacritics will be removed and there likely to be an extra space
 
     أهلا  وسهلا  بكم
 
-### No Duplicated Diacritics on the Same Letter
+### No Duplicated Diacritics on the Same Letter [![textlint rule](https://img.shields.io/badge/textlint-fixable-green.svg)](https://textlint.github.io/)
 
     يونََُُِِس: قال أبو عبيدة، «يقال:يونس بضم النون وكسرها». والمشهور في القراءة يونُس برفع النون من غير همز.
 
