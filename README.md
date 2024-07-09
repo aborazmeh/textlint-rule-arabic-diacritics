@@ -26,6 +26,14 @@ Only diacritics will be removed and there likely to be an extra space
 
     أهلا  وسهلا  بكم
 
+### No Duplicated Diacritics on the Same Letter
+
+    يونََُُِِس: قال أبو عبيدة، «يقال:يونس بضم النون وكسرها». والمشهور في القراءة يونُس برفع النون من غير همز.
+
+Duplicated diacritics will be removed
+
+    يونَُِس: قال أبو عبيدة، «يقال:يونس بضم النون وكسرها». والمشهور في القراءة يونُس برفع النون من غير همز.
+
 ### No Shadda With Madda
 
 Shadda can't be combined with Madda
@@ -51,6 +59,7 @@ These are default options, you can change them in your .textlintrc file
           "remove_loose_diacritics": true,
           "no_shadda_with_madda": true,
           "no_shadda_with_sukun": true,
+          "no_duplicated_diacritics": true,
         }
     }
 }
@@ -86,7 +95,6 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 - No Tanween *and* Haraka on the same letter
 - No Haraka *and* Sukun on the same letter
 - No Sukun on the first letter of the word
-- Duplicated diacritics on the same letter
 - Option for no combining diacritics
 - No Shadda with Sukun
 - Normalize diacritics: like `U+FE7C` and `U+FE7D` to `U+0651`, and `U+FCF2` to `U+0651` and `U+064E`

@@ -5,6 +5,7 @@ export interface Options {
     remove_loose_diacritics?: boolean;
     no_shadda_with_madda?: boolean;
     no_shadda_with_sukun?: boolean;
+    no_duplicated_diacritics?: boolean;
 }
 
 const regex = {
@@ -73,6 +74,34 @@ function noShaddaWithSukun(node: TxtStrNode, text: string, context: Readonly<Tex
     }
 }
 
+function noDuplicatedDiacritics(node: TxtStrNode, text: string, context: Readonly<TextlintRuleContext>) {
+    const { report, fixer, locator, RuleError } = context;
+
+    let match;
+    let matches = [];
+    const doubleRegex = new RegExp(`(${regex.diacritics})${regex.diacritics}*\\1`, "g");
+
+    for (let i = 0; i < text.length; i++) {
+        doubleRegex.lastIndex = i; // Start matching from the current position
+        match = doubleRegex.exec(text);
+        if (match) {
+            matches.push(match);
+            i = match.index; // Move to the start of the match for the next iteration
+        }
+    }
+
+    for (const match of matches) {
+        const index = match.index ?? 0;
+        const matchRange = [index, index + match[0].length] as const;
+        const remove = fixer.removeRange([index + match[0].length - 1, index + match[0].length]);
+        const ruleError = new RuleError("Found duplicated Arabic diacritic on the same letter.", {
+            padding: locator.range(matchRange),
+            fix: remove
+        });
+        report(node, ruleError);
+    }
+}
+
 const report: TextlintRuleModule<Options> = (context, options = {}) => {
     const { getSource, Syntax } = context;
     return {
@@ -80,6 +109,7 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
             const removeLooseDiacritics = options.remove_loose_diacritics ?? true;
             const shaddaWithMaddaOpt = options.no_shadda_with_madda ?? true;
             const shaddaWithSukunOpt = options.no_shadda_with_sukun ?? true;
+            const duplicatedDiacriticsOpt = options.no_duplicated_diacritics ?? true;
 
             const text = getSource(node); // Get text
             noLooseDiacritics(node, text, context, removeLooseDiacritics);
@@ -90,6 +120,10 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
 
             if (shaddaWithSukunOpt) {
                 noShaddaWithSukun(node, text, context);
+            }
+
+            if (duplicatedDiacriticsOpt) {
+                noDuplicatedDiacritics(node, text, context);
             }
         }
     };

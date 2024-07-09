@@ -8,6 +8,7 @@ tester.run("rule", rule, {
         "أهلاً وسهلاً",
         "الآن",
         "ضيّق",
+        "يونَُِس: قال أبو عبيدة، «يقال:يونس بضم النون وكسرها». والمشهور في القراءة يونُس برفع النون من غير همز.",
         {
             text: "ضيّْق",
             options: {
@@ -79,6 +80,28 @@ tester.run("rule", rule, {
                 {
                     message: "Found Shadda combined with Sukun.",
                     range: [2, 4]
+                }
+            ]
+        },
+        {
+            text: "يونََُُِِس: قال أبو عبيدة، «يقال:يونس بضم النون وكسرها». والمشهور في القراءة يونُس برفع النون من غير همز.",
+            output: "يونَُِس: قال أبو عبيدة، «يقال:يونس بضم النون وكسرها». والمشهور في القراءة يونُس برفع النون من غير همز.",
+            errors: [
+                {
+                    message: "Found duplicated Arabic diacritic on the same letter.",
+                    range: [3, 7]
+                },
+                { message: "Found duplicated Arabic diacritic on the same letter.", range: [4, 8] },
+                { message: "Found duplicated Arabic diacritic on the same letter.", range: [5, 9] }
+            ]
+        },
+        {
+            text: "تجربة لشدَّّتين على نفس الحرف",
+            output: "تجربة لشدَّتين على نفس الحرف",
+            errors: [
+                {
+                    message: "Found duplicated Arabic diacritic on the same letter.",
+                    range: [9, 12]
                 }
             ]
         }
