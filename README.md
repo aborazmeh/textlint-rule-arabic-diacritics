@@ -26,6 +26,12 @@ Only diacritics will be removed and there likely to be an extra space
 
     أهلا  وسهلا  بكم
 
+### No Shadda With Madda
+
+Shadda can't be combined with Madda
+
+    الآّن والآّن والآّن
+
 ## Usage
 
 Via `.textlintrc.json`(Recommended)
@@ -34,7 +40,8 @@ Via `.textlintrc.json`(Recommended)
 {
     "rules": {
         "arabic-diacritics": {
-          "remove_loose_diacritics": true
+          "remove_loose_diacritics": true,
+          "no_shadda_with_madda": true,
         }
     }
 }
@@ -67,7 +74,6 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 - No consecutive five Harakat 
 - No consecutive three Sokoon
 - Twneen on Alef or the letter before
-- No Madda with Shadda
 - No Tanween *and* Haraka on the same letter
 - No Haraka *and* Sukun on the same letter
 - No Sukun on the first letter of the word
