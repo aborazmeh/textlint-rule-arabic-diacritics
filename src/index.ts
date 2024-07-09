@@ -61,9 +61,7 @@ function noShaddaWithMadda(node: TxtStrNode, text: string, context: Readonly<Tex
 function noShaddaWithSukun(node: TxtStrNode, text: string, context: Readonly<TextlintRuleContext>) {
     const { report, locator, RuleError } = context;
 
-    const matches = text.matchAll(
-        new RegExp(`(${regex.shadda})${regex.sukun}|${regex.sukun}${regex.shadda}`, "g")
-    );
+    const matches = text.matchAll(new RegExp(`(${regex.shadda})${regex.sukun}|${regex.sukun}${regex.shadda}`, "g"));
     for (const match of matches) {
         const index = match.index ?? 0;
         const matchRange = [index, index + match[0].length] as const;
