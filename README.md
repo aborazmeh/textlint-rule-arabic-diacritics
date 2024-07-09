@@ -77,6 +77,9 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 - No Tanween *and* Haraka on the same letter
 - No Haraka *and* Sukun on the same letter
 - No Sukun on the first letter of the word
+- Duplicated diacritics on the same letter
+- Option for no combining diacritics
+- No Shadda with Sukun
 
 ## License
 
