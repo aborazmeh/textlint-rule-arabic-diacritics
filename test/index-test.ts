@@ -9,6 +9,7 @@ tester.run("rule", rule, {
         "الآن",
         "ضيّق",
         "يونَُِس: قال أبو عبيدة، «يقال:يونس بضم النون وكسرها». والمشهور في القراءة يونُس برفع النون من غير همز.",
+        "من علامات الاسم: التنوين آخر الاسم المنصرف؛ السماء صافيةٌ، رأيت عامراً، مررت بدكانٍ",
         {
             text: "ضيّْق",
             options: {
@@ -111,6 +112,27 @@ tester.run("rule", rule, {
                 {
                     message: "Found duplicated Arabic diacritic on the same letter.",
                     range: [9, 12]
+                }
+            ]
+        },
+        {
+            text: "لا يمكن للتنوين أن يأتي في وسًٍط وسٍط وسٌط الكلمة",
+            errors: [
+                {
+                    message: "Found middle Tanween.",
+                    range: [29, 30]
+                },
+                {
+                    message: "Found middle Tanween.",
+                    range: [30, 31]
+                },
+                {
+                    message: "Found middle Tanween.",
+                    range: [35, 36]
+                },
+                {
+                    message: "Found middle Tanween.",
+                    range: [40, 41]
                 }
             ]
         }

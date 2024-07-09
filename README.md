@@ -47,6 +47,10 @@ Shadda can't be combined with Sukun
 
     ضيّْق
 
+### No Middle Tanween
+
+    لا يمكن للتنوين أن يأتي في وسًٍط وسٍط وسٌط الكلمة
+
 ## Usage
 
 Via `.textlintrc.json`(Recommended)
@@ -90,7 +94,6 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 
 - Normalize diacritics forms before some regexes like for duplicated diacritics
 - No diacritics or Tanween on Alef without Hamza except Tanween Al-Nasb
-- No middle Tanween
 - No consecutive five Harakat 
 - No consecutive three Sokoon
 - Twneen on Alef or the letter before
