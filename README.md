@@ -87,6 +87,7 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 
 ## TODO
 
+- Normalize diacritics forms before some regexes like for duplicated diacritics
 - No diacritics or Tanween on Alef without Hamza except Tanween Al-Nasb
 - No middle Tanween
 - No consecutive five Harakat 
