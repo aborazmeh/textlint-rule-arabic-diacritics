@@ -89,6 +89,7 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 - Duplicated diacritics on the same letter
 - Option for no combining diacritics
 - No Shadda with Sukun
+- Normalize diacritics: like `U+FE7C` and `U+FE7D` to `U+0651`, and `U+FCF2` to `U+0651` and `U+064E`
 
 ## License
 
