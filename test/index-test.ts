@@ -4,7 +4,17 @@ import rule from "../src/index";
 const tester = new TextLintTester();
 // ruleName, rule, { valid, invalid }
 tester.run("rule", rule, {
-    valid: ["أهلاً وسهلاً", "الآن"],
+    valid: [
+        "أهلاً وسهلاً",
+        "الآن",
+        "ضيّق",
+        {
+            text: "ضيّْق",
+            options: {
+                no_shadda_with_sukun: false
+            }
+        }
+    ],
     invalid: [
         {
             text: "أهلا ً وسهلا ً بكم.",
@@ -57,6 +67,18 @@ tester.run("rule", rule, {
                 {
                     message: "Found Shadda combined with Madda.",
                     range: [18, 20]
+                }
+            ]
+        },
+        {
+            text: "ضيّْق",
+            options: {
+                no_shadda_with_sukun: true
+            },
+            errors: [
+                {
+                    message: "Found Shadda combined with Sukun.",
+                    range: [2, 4]
                 }
             ]
         }

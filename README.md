@@ -32,6 +32,12 @@ Shadda can't be combined with Madda
 
     الآّن والآّن والآّن
 
+### No Shadda with Sukun
+
+Shadda can't be combined with Sukun
+
+    ضيّْق
+
 ## Usage
 
 Via `.textlintrc.json`(Recommended)
@@ -42,6 +48,7 @@ Via `.textlintrc.json`(Recommended)
         "arabic-diacritics": {
           "remove_loose_diacritics": true,
           "no_shadda_with_madda": true,
+          "no_shadda_with_sukun": true,
         }
     }
 }

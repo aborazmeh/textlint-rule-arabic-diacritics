@@ -4,7 +4,16 @@ import type { TextlintRuleContext, TextlintRuleModule } from "@textlint/types";
 export interface Options {
     remove_loose_diacritics?: boolean;
     no_shadda_with_madda?: boolean;
+    no_shadda_with_sukun?: boolean;
 }
+
+const regex = {
+    diacritics: "[\u064B-\u0653]",
+    shadda: "[\u0651\u0AFB\uFC5E-\uFC63\uFCF2-\uFCF4\uFE7C\uFE7D\u11237]",
+    madda: "\u0653",
+    alefMadda: "[\u0622\uFE81\uFE82\uFEF5\uFEF6]",
+    sukun: "[\u0652\u07B0\u082C\u08D0\u0AFA\uFE7E\uFE7F\u1123E]"
+};
 
 function noLooseDiacritics(
     node: TxtStrNode,
@@ -13,7 +22,7 @@ function noLooseDiacritics(
     removeLooseDiacritics: boolean
 ) {
     const { fixer, report, locator, RuleError } = context;
-    const matches = text.matchAll(/\s[\u064B-\u0653]/g);
+    const matches = text.matchAll(new RegExp(`\\s${regex.diacritics}`, "g"));
     for (const match of matches) {
         const index = match.index ?? 0;
         const matchRange = [index, index + match[0].length] as const;
@@ -48,18 +57,39 @@ function noShaddaWithMadda(node: TxtStrNode, text: string, context: Readonly<Tex
     }
 }
 
+function noShaddaWithSukun(node: TxtStrNode, text: string, context: Readonly<TextlintRuleContext>) {
+    const { report, locator, RuleError } = context;
+
+    const matches = text.matchAll(
+        new RegExp(`(${regex.shadda})${regex.sukun}|${regex.sukun}${regex.shadda}`, "g")
+    );
+    for (const match of matches) {
+        const index = match.index ?? 0;
+        const matchRange = [index, index + match[0].length] as const;
+        const ruleError = new RuleError("Found Shadda combined with Sukun.", {
+            padding: locator.range(matchRange)
+        });
+        report(node, ruleError);
+    }
+}
+
 const report: TextlintRuleModule<Options> = (context, options = {}) => {
     const { getSource, Syntax } = context;
     return {
         [Syntax.Str](node) {
             const removeLooseDiacritics = options.remove_loose_diacritics ?? true;
             const shaddaWithMaddaOpt = options.no_shadda_with_madda ?? true;
+            const shaddaWithSukunOpt = options.no_shadda_with_sukun ?? true;
 
             const text = getSource(node); // Get text
             noLooseDiacritics(node, text, context, removeLooseDiacritics);
 
             if (shaddaWithMaddaOpt) {
                 noShaddaWithMadda(node, text, context);
+            }
+
+            if (shaddaWithSukunOpt) {
+                noShaddaWithSukun(node, text, context);
             }
         }
     };
