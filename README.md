@@ -61,6 +61,10 @@ Shadda can't be combined with Sukun
 
     لا يمكن للتنوين أن يأتي في وسًٍط وسٍط وسٌط الكلمة
 
+### Only Fathatan on Alef
+
+    تجريباٌ تجريباٍ
+
 ## Usage
 
 Via `.textlintrc.json`(Recommended)
@@ -75,6 +79,7 @@ These are default options, you can change them in your .textlintrc file
           "no_shadda_with_madda": true,
           "no_shadda_with_sukun": true,
           "no_duplicated_diacritics": true,
+          "only_fathatan_on_alef": true,
         }
     }
 }
@@ -103,7 +108,6 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 ## TODO
 
 - Normalize diacritics forms before some regexes like for duplicated diacritics, and Tanween related rules
-- No diacritics or Tanween on Alef without Hamza except Tanween Al-Nasb
 - No consecutive five Harakat 
 - No consecutive three Sokoon
 - Twneen on Alef or the letter before

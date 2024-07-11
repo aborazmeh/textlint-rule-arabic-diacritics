@@ -145,6 +145,19 @@ tester.run("rule", rule, {
                     range: [5, 6]
                 }
             ]
+        },
+        {
+            text: "تجريباٌ تجريباٍ",
+            errors: [
+                {
+                    message: "Found Tanween on Alef, only Fathatan can be on Alef.",
+                    range: [5, 7]
+                },
+                {
+                    message: "Found Tanween on Alef, only Fathatan can be on Alef.",
+                    range: [13, 15]
+                }
+            ]
         }
     ]
 });

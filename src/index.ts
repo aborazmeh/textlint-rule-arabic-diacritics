@@ -7,16 +7,23 @@ export interface Options {
     no_shadda_with_madda?: boolean;
     no_shadda_with_sukun?: boolean;
     no_duplicated_diacritics?: boolean;
-    no_middle_tanween?: boolean
+    no_middle_tanween?: boolean;
+    only_fathatan_on_alef?: boolean;
 }
+
+const alefWithFathatan = "\uFD3C\uFD3D";
+const fathatan = "\u064B\u08E7\u08F0\uFE70\uFE71";
+const dammatan = "\u064C\u08E8\u08F1\uFC5E\uFE72";
+const kasratan = "\u064D\u08E9\u08F2\uFC5F\uFE74";
 
 const regex = {
     diacritics: "[\u064B-\u0653]",
-    tanween: "[\u064B-\u064D]",
+    tanween: `[${alefWithFathatan}${fathatan}${dammatan}${kasratan}]`,
     shadda: "[\u0651\u0AFB\uFC5E-\uFC63\uFCF2-\uFCF4\uFE7C\uFE7D\u11237]",
     madda: "\u0653",
     alefMadda: "[\u0622\uFE81\uFE82\uFEF5\uFEF6]",
-    sukun: "[\u0652\u07B0\u082C\u08D0\u0AFA\uFE7E\uFE7F\u1123E]"
+    sukun: "[\u0652\u07B0\u082C\u08D0\u0AFA\uFE7E\uFE7F\u1123E]",
+    alef: "[\u0627\uFE8D\uFE8E\u1EE00]"
 };
 
 function normalize(node: TxtStrNode, text: string, context: Readonly<TextlintRuleContext>) {
@@ -429,6 +436,20 @@ function noMiddleTanween(node: TxtStrNode, text: string, context: Readonly<Textl
     }
 }
 
+function onlyFathatanOnAlef(node: TxtStrNode, text: string, context: Readonly<TextlintRuleContext>) {
+    const { report, locator, RuleError } = context;
+
+    const matches = text.matchAll(new RegExp(`${regex.alef}[${dammatan}${kasratan}]`, "ug"));
+    for (const match of matches) {
+        const index = match.index ?? 0;
+        const matchRange = [index, index + match[0].length] as const;
+        const ruleError = new RuleError("Found Tanween on Alef, only Fathatan can be on Alef.", {
+            padding: locator.range(matchRange)
+        });
+        report(node, ruleError);
+    }
+}
+
 const report: TextlintRuleModule<Options> = (context, options = {}) => {
     const { getSource, Syntax } = context;
     return {
@@ -439,6 +460,7 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
             const shaddaWithSukunOpt = options.no_shadda_with_sukun ?? true;
             const duplicatedDiacriticsOpt = options.no_duplicated_diacritics ?? true;
             const noMiddleTanweenOpt = options.no_middle_tanween ?? true;
+            const onlyFathatanOnAlefOpt = options.only_fathatan_on_alef ?? true;
 
             const text = getSource(node); // Get text
 
@@ -462,6 +484,10 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
 
             if (noMiddleTanweenOpt) {
                 noMiddleTanween(node, text, context);
+            }
+
+            if (onlyFathatanOnAlefOpt) {
+                onlyFathatanOnAlef(node, text, context)
             }
         }
     };
