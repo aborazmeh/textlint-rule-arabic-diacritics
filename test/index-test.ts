@@ -135,6 +135,16 @@ tester.run("rule", rule, {
                     range: [40, 41]
                 }
             ]
+        },
+        {
+            text: "تجريبﴼ",
+            output: "تجريباً",
+            errors: [
+                {
+                    message: "Found normalizable character ARABIC LIGATURE ALEF WITH FATHATAN FINAL FORM.",
+                    range: [5, 6]
+                }
+            ]
         }
     ]
 });
