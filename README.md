@@ -100,6 +100,7 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 - No Tanween *and* Haraka on the same letter
 - No Haraka *and* Sukun on the same letter
 - No Sukun on the first letter of the word
+- No Madda with Hamza
 - Option for no combining diacritics
 - Normalize diacritics: like `U+FE7C` and `U+FE7D` to `U+0651`, and `U+FCF2` to `U+0651` and `U+064E`
 
