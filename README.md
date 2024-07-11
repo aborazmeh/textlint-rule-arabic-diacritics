@@ -18,6 +18,16 @@ textlint --rule no-kasheeda --fix README.md
 
 ## Examples
 
+## Normalize [![textlint rule](https://img.shields.io/badge/textlint-fixable-green.svg)](https://textlint.github.io/)
+
+    أهلﴼ وسهلﴼ بكم
+
+Diacritic characters will be transformed to their mappings
+
+    أهلاً وسهلاً بكم
+
+You can also have a loot at [textlint-rule-arabic-letter-forms](https://github.com/aborazmeh/textlint-rule-arabic-letter-forms)
+
 ### Loose Diacritics [![textlint rule](https://img.shields.io/badge/textlint-fixable-green.svg)](https://textlint.github.io/)
 
 
