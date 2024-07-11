@@ -18,6 +18,101 @@ const regex = {
     sukun: "[\u0652\u07B0\u082C\u08D0\u0AFA\uFE7E\uFE7F\u1123E]"
 };
 
+function normalize(text: string): string {
+    const replaces: { [key: string]: string } = {
+        ﹱ: "ـً",
+        ﹰ: "ً",
+        ﹲ: "ٌ",
+        ﱞ: "ٌّ",
+        ﹴ: "ٍ",
+        ﱟ: "ٍّ",
+        ﹷ: "ـَ",
+        ﹶ: "َ",
+        ﳲ: "ـَّ",
+        ﱠ: "َّ",
+        ﹹ: "ـُ",
+        ﹸ: "ُ",
+        ﳳ: "ـُّ",
+        ﱡ: "ُّ",
+        ﹻ: "ـِ",
+        ﹺ: "ِ",
+        ﳴ: "ـِّ",
+        ﱢ: "ِّ",
+        ﹽ: "ـّ",
+        ﹼ: "ّ",
+        ﱣ: "ّٰ",
+        ﹿ: "ـْ",
+        ﹾ: "ْ",
+        ﴽ: "اً",
+        ﴼ: "اً",
+        ﭐ: "ٱ",
+        ﭑ: "ٱ",
+        ﯝ: "ٷ",
+        ﻷ: "لأ",
+        ﻸ: "لأ",
+        ﻹ: "لإ",
+        ﻺ: "لإ",
+        ﻻ: "لا",
+        ﻼ: "لا",
+        ﯪ: "ئا",
+        ﯫ: "ئا",
+        ﯬ: "ئە",
+        ﯭ: "ئە",
+        ﯮ: "ئو",
+        ﯯ: "ئو",
+        ﯰ: "ئۇ",
+        ﯱ: "ئۇ",
+        ﯲ: "ئۆ",
+        ﯳ: "ئۆ",
+        ﯴ: "ئۈ",
+        ﯵ: "ئۈ",
+        ﯶ: "ئې",
+        ﯷ: "ئې",
+        ﯸ: "ئې",
+        ﯹ: "ئى",
+        ﯺ: "ئى",
+        ﯻ: "ئى",
+        ﰀ: "ئج",
+        ﰁ: "ئح",
+        ﰂ: "ئم",
+        ﰃ: "ئى",
+        ﰄ: "ئي",
+        ﱤ: "ئر",
+        ﱥ: "ئز",
+        ﱦ: "ئم",
+        ﱧ: "ئن",
+        ﱨ: "ئى",
+        ﱩ: "ئي",
+        ﲗ: "ئج",
+        ﲘ: "ئح",
+        ﲙ: "ئخ",
+        ﲚ: "ئم",
+        ﲛ: "ئه",
+        ﳟ: "ئم",
+        ﳠ: "ئه",
+        ﺃ: "أ",
+        ﺄ: "أ",
+        ﺅ: "ؤ",
+        ﺆ: "ؤ",
+        ﺇ: "إ",
+        ﺈ: "إ",
+        ﺉ: "ئ",
+        ﺊ: "ئ",
+        ﺋ: "ئ",
+        ﺌ: "ئ",
+        ﺀ: "ء",
+        ﱜ: "رٰ",
+        ﱝ: "ىٰ",
+        ﲐ: "ىٰ",
+        ﳙ: "هٰ"
+    };
+    for (const [key, value] of Object.entries(replaces)) {
+        const regex = new RegExp(key, "g");
+        text = text.replace(regex, value);
+    }
+    return text;
+}
+
 function noLooseDiacritics(
     node: TxtStrNode,
     text: string,
@@ -127,7 +222,8 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
             const duplicatedDiacriticsOpt = options.no_duplicated_diacritics ?? true;
             const noMiddleTanweenOpt = options.no_middle_tanween ?? true;
 
-            const text = getSource(node); // Get text
+            const text = normalize(getSource(node)); // Get text
+
             noLooseDiacritics(node, text, context, removeLooseDiacritics);
 
             if (shaddaWithMaddaOpt) {
