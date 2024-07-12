@@ -117,7 +117,6 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 
 ## TODO
 
-- Normalize diacritics forms before some regexes like for duplicated diacritics, and Tanween related rules
 - No consecutive five Harakat 
 - No consecutive three Sokoon
 - No Tanween *and* Haraka on the same letter
@@ -125,7 +124,6 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 - No Sukun on the first letter of the word
 - No Madda with Hamza
 - Option for no combining diacritics
-- Normalize diacritics: like `U+FE7C` and `U+FE7D` to `U+0651`, and `U+FCF2` to `U+0651` and `U+064E`
 
 ## License
 
