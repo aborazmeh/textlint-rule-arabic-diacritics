@@ -5,15 +5,32 @@ const tester = new TextLintTester();
 // ruleName, rule, { valid, invalid }
 tester.run("rule", rule, {
     valid: [
-        "أهلاً وسهلاً",
         "الآن",
         "ضيّق",
         "يونَُِس: قال أبو عبيدة، «يقال:يونس بضم النون وكسرها». والمشهور في القراءة يونُس برفع النون من غير همز.",
-        "من علامات الاسم: التنوين آخر الاسم المنصرف؛ السماء صافيةٌ، رأيت عامراً، مررت بدكانٍ",
+        {
+            text: "أهلاً وسهلاً",
+            options: {
+                fathatan_before_alef: false
+            }
+        },
+        {
+            text: "من علامات الاسم: التنوين آخر الاسم المنصرف؛ السماء صافيةٌ، رأيت عامراً، مررت بدكانٍ",
+            options: {
+                fathatan_before_alef: false
+            }
+        },
         {
             text: "ضيّْق",
             options: {
                 no_shadda_with_sukun: false
+            }
+        },
+        {
+            text: "تجريبﴼ تجريباً",
+            options: {
+                normalize: false,
+                fathatan_before_alef: false
             }
         }
     ],
@@ -139,6 +156,9 @@ tester.run("rule", rule, {
         {
             text: "تجريبﴼ",
             output: "تجريباً",
+            options: {
+                fathatan_before_alef: false
+            },
             errors: [
                 {
                     message: "Found normalizable character ARABIC LIGATURE ALEF WITH FATHATAN FINAL FORM.",
@@ -156,6 +176,24 @@ tester.run("rule", rule, {
                 {
                     message: "Found Tanween on Alef, only Fathatan can be on Alef.",
                     range: [13, 15]
+                }
+            ]
+        },
+        {
+            text: "تجريباً تجريبﴼ",
+            output: "تجريبًا تجريبًا",
+            options: {
+                normalize: false,
+                fathatan_before_alef: true
+            },
+            errors: [
+                {
+                    range: [4, 7],
+                    message: "Found Fathatan on Alef."
+                },
+                {
+                    range: [12, 14],
+                    message: "Found Fathatan on Alef."
                 }
             ]
         }

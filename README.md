@@ -65,6 +65,15 @@ Shadda can't be combined with Sukun
 
     تجريباٌ تجريباٍ
 
+### Fathatan Before Alef
+
+    أهلاً وسهلﴼ
+
+Some standards write Fathatan on Alef Mamduda while others write it on the letter before
+you can specify that option
+
+    أهلًا وسهلًا
+
 ## Usage
 
 Via `.textlintrc.json`(Recommended)
@@ -80,6 +89,7 @@ These are default options, you can change them in your .textlintrc file
           "no_shadda_with_sukun": true,
           "no_duplicated_diacritics": true,
           "only_fathatan_on_alef": true,
+          "fathatan_before_alef": true
         }
     }
 }
@@ -110,7 +120,6 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 - Normalize diacritics forms before some regexes like for duplicated diacritics, and Tanween related rules
 - No consecutive five Harakat 
 - No consecutive three Sokoon
-- Twneen on Alef or the letter before
 - No Tanween *and* Haraka on the same letter
 - No Haraka *and* Sukun on the same letter
 - No Sukun on the first letter of the word

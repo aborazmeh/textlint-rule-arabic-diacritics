@@ -9,6 +9,7 @@ export interface Options {
     no_duplicated_diacritics?: boolean;
     no_middle_tanween?: boolean;
     only_fathatan_on_alef?: boolean;
+    fathatan_before_alef?: boolean;
 }
 
 const alefWithFathatan = "\uFD3C\uFD3D";
@@ -450,6 +451,34 @@ function onlyFathatanOnAlef(node: TxtStrNode, text: string, context: Readonly<Te
     }
 }
 
+function fathatanBeforeAlef(node: TxtStrNode, text: string, context: Readonly<TextlintRuleContext>) {
+    const { report, fixer, locator, RuleError } = context;
+
+    const matches = text.matchAll(new RegExp(`(\\p{Letter})(${regex.alef})([${fathatan}])`, "ug"));
+    for (const match of matches) {
+        const index = match.index ?? 0;
+        const matchRange = [index, index + match[0].length] as const;
+        const move = fixer.replaceTextRange(matchRange, `${match[1]}${match[3]}${match[2]}`);
+        const ruleError = new RuleError("Found Fathatan on Alef.", {
+            padding: locator.range(matchRange),
+            fix: move
+        });
+        report(node, ruleError);
+    }
+
+    const matchesalefWithFathatan = text.matchAll(new RegExp(`(\\p{Letter})[${alefWithFathatan}]`, "ug"));
+    for (const match of matchesalefWithFathatan) {
+        const index = match.index ?? 0;
+        const matchRange = [index, index + match[0].length] as const;
+        const move = fixer.replaceTextRange(matchRange, `${match[1]}ًا`);
+        const ruleError = new RuleError("Found Fathatan on Alef.", {
+            padding: locator.range(matchRange),
+            fix: move
+        });
+        report(node, ruleError);
+    }
+}
+
 const report: TextlintRuleModule<Options> = (context, options = {}) => {
     const { getSource, Syntax } = context;
     return {
@@ -461,6 +490,7 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
             const duplicatedDiacriticsOpt = options.no_duplicated_diacritics ?? true;
             const noMiddleTanweenOpt = options.no_middle_tanween ?? true;
             const onlyFathatanOnAlefOpt = options.only_fathatan_on_alef ?? true;
+            const fathatanBeforeAlefOpt = options.fathatan_before_alef ?? true;
 
             const text = getSource(node); // Get text
 
@@ -487,7 +517,11 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
             }
 
             if (onlyFathatanOnAlefOpt) {
-                onlyFathatanOnAlef(node, text, context)
+                onlyFathatanOnAlef(node, text, context);
+            }
+
+            if (fathatanBeforeAlefOpt) {
+                fathatanBeforeAlef(node, text, context);
             }
         }
     };
