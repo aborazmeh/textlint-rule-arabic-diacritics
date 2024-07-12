@@ -65,12 +65,12 @@ Shadda can't be combined with Sukun
 
     تجريباٌ تجريباٍ
 
-### Fathatan Before Alef
+### Fathatan Before Alef [![textlint rule](https://img.shields.io/badge/textlint-fixable-green.svg)](https://textlint.github.io/)
 
     أهلاً وسهلﴼ
 
 Some standards write Fathatan on Alef Mamduda while others write it on the letter before
-you can specify that option
+you can specify that option, fixing this will normalize the character
 
     أهلًا وسهلًا
 
