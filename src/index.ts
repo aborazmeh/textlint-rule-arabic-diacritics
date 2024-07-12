@@ -454,7 +454,7 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
     const { getSource, Syntax } = context;
     return {
         [Syntax.Str](node) {
-            const normalizeCharactersOpt = options.no_duplicated_diacritics ?? true;
+            const normalizeCharactersOpt = options.normalize ?? true;
             const removeLooseDiacritics = options.remove_loose_diacritics ?? true;
             const shaddaWithMaddaOpt = options.no_shadda_with_madda ?? true;
             const shaddaWithSukunOpt = options.no_shadda_with_sukun ?? true;
