@@ -8,6 +8,11 @@ tester.run("rule", rule, {
         "الآن",
         "ضيّق",
         "يونَُِس: قال أبو عبيدة، «يقال:يونس بضم النون وكسرها». والمشهور في القراءة يونُس برفع النون من غير همز.",
+        `"وَأَيوُّبَ وَيُوسَُِف": قُرأ يوسف بضم السين وكسرها وفتحها، وكلُّ هذه القراءات لغات، أفصحها ضمٌ السين.`,
+        {
+            text: "حركةٌ وشدَّةٌ ليستا حركتان على الحرف نفسه",
+            options: { no_multiple_diactritics: true }
+        },
         {
             text: "أهلاً وسهلاً",
             options: {
@@ -194,6 +199,16 @@ tester.run("rule", rule, {
                 {
                     range: [12, 14],
                     message: "Found Fathatan on Alef."
+                }
+            ]
+        },
+        {
+            text: `"وَأَيوُّبَ وَيُوسَُِف": قُرأ يوسف بضم السين وكسرها وفتحها، وكلُّ هذه القراءات لغات، أفصحها ضمٌ السين.`,
+            options: { no_multiple_diactritics: true },
+            errors: [
+                {
+                    message: "Found multiple diactritic on the same letter.",
+                    range: [17, 20]
                 }
             ]
         }

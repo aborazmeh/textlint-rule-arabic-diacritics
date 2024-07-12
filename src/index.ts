@@ -10,7 +10,13 @@ export interface Options {
     no_middle_tanween?: boolean;
     only_fathatan_on_alef?: boolean;
     fathatan_before_alef?: boolean;
+    no_multiple_diactritics?: boolean;
 }
+
+const fatha = "\u0618\u064E\u065E\u08E4\u08F4\u08F5\uFC60\uFCF2\uFE76\uFE77";
+const damma = "\u0619\u064F\u0657\u065D\u08E3\u08E5\u08FE\uFC61\uFCF3\uFE78\uFE79";
+const kasra = "\u061A\u0650\u08D8\u08D9\u08E6\u08F6\uFC62\uFCF4\uFE7A\uFE7B";
+const sukun = "\u0652\u07B0\u082C\u08D0\u0AFA\uFE7E\uFE7F\u1123E";
 
 const alefWithFathatan = "\uFD3C\uFD3D";
 const fathatan = "\u064B\u08E7\u08F0\uFE70\uFE71";
@@ -18,12 +24,13 @@ const dammatan = "\u064C\u08E8\u08F1\uFC5E\uFE72";
 const kasratan = "\u064D\u08E9\u08F2\uFC5F\uFE74";
 
 const regex = {
+    basicDiacritics: `[${fatha}${damma}${kasra}${sukun}]`,
     diacritics: "[\u064B-\u0653]",
     tanween: `[${alefWithFathatan}${fathatan}${dammatan}${kasratan}]`,
     shadda: "[\u0651\u0AFB\uFC5E-\uFC63\uFCF2-\uFCF4\uFE7C\uFE7D\u11237]",
     madda: "\u0653",
     alefMadda: "[\u0622\uFE81\uFE82\uFEF5\uFEF6]",
-    sukun: "[\u0652\u07B0\u082C\u08D0\u0AFA\uFE7E\uFE7F\u1123E]",
+    sukun: `[${sukun}]`,
     alef: "[\u0627\uFE8D\uFE8E\u1EE00]"
 };
 
@@ -479,6 +486,25 @@ function fathatanBeforeAlef(node: TxtStrNode, text: string, context: Readonly<Te
     }
 }
 
+function noMultipleDiactritics(node: TxtStrNode, text: string, context: Readonly<TextlintRuleContext>) {
+    const { report, locator, RuleError } = context;
+
+    const matches = text.matchAll(
+        new RegExp(
+            `(\\p{Letter}|${regex.shadda})${regex.basicDiacritics}(${regex.basicDiacritics}|${regex.shadda})*?${regex.basicDiacritics}`,
+            "ug"
+        )
+    );
+    for (const match of matches) {
+        const index = match.index ?? 0;
+        const matchRange = [index, index + match[0].length] as const;
+        const ruleError = new RuleError("Found multiple diactritic on the same letter.", {
+            padding: locator.range(matchRange)
+        });
+        report(node, ruleError);
+    }
+}
+
 const report: TextlintRuleModule<Options> = (context, options = {}) => {
     const { getSource, Syntax } = context;
     return {
@@ -491,6 +517,7 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
             const noMiddleTanweenOpt = options.no_middle_tanween ?? true;
             const onlyFathatanOnAlefOpt = options.only_fathatan_on_alef ?? true;
             const fathatanBeforeAlefOpt = options.fathatan_before_alef ?? true;
+            const noMultipleDiactriticsOpt = options.no_multiple_diactritics ?? false;
 
             const text = getSource(node); // Get text
 
@@ -522,6 +549,10 @@ const report: TextlintRuleModule<Options> = (context, options = {}) => {
 
             if (fathatanBeforeAlefOpt) {
                 fathatanBeforeAlef(node, text, context);
+            }
+
+            if (noMultipleDiactriticsOpt) {
+                noMultipleDiactritics(node, text, context);
             }
         }
     };

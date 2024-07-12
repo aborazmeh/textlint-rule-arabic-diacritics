@@ -74,6 +74,14 @@ you can specify that option, fixing this will normalize the character
 
     أهلًا وسهلًا
 
+## No Multiple Diacritics on the Same Letter
+
+This option is false by default, but you can turn it on to make sure every letter can take only one basic diacritic.
+
+    وَأَيوُّبَ وَيُوسَُِف": قُرأ يوسف بضم السين وكسرها وفتحها، وكلُّ هذه القراءات لغات، أفصحها ضمٌ السين.
+
+This will yield error when the option is turned on.
+
 ## Usage
 
 Via `.textlintrc.json`(Recommended)
@@ -89,7 +97,8 @@ These are default options, you can change them in your .textlintrc file
           "no_shadda_with_sukun": true,
           "no_duplicated_diacritics": true,
           "only_fathatan_on_alef": true,
-          "fathatan_before_alef": true
+          "fathatan_before_alef": true,
+          "no_multiple_diactritics": false
         }
     }
 }
@@ -123,7 +132,6 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 - No Haraka *and* Sukun on the same letter
 - No Sukun on the first letter of the word
 - No Madda with Hamza
-- Option for no combining diacritics
 
 ## License
 
